@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  mongo:
+      image: mongo:6
+      container_name: mongo
+      ports:
+        - "27017:27017"
+      volumes:
+        - mongo_data:/data/db
+
+  api:
+    build:
+      context: ./server
+      target: dev
+    container_name: api
+    env_file:
+      - ./server/.env
+    environment:
+      MONGO_URI: mongodb://mongo:27017/auth_demo
+      NODE_ENV: development
+      CORS_ORIGIN: http://localhost:5173
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    volumes:
+      - ./server:/app
+      - api_node_modules:/app/node_modules
+
+  web:
+    build:
+      context: ./web
+      target: dev
+    container_name: web
+    environment:
+      VITE_API_URL: http://localhost:3000
+      NODE_ENV: development
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    volumes:
+      - ./web:/web
+      - web_node_modules:/web/node_modules
+
+volumes:
+  mongo_data:
+  api_node_modules:
+  web_node_modules:
