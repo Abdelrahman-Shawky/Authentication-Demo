@@ -127,17 +127,34 @@ Client uses Zod with React Hook Form’s resolver; server uses DTO decorators + 
 
 ```ini
 cd server
-# ensure .env exists
+# create .env file
 npm ci
 npm run start:dev
 ```
+#### .env file example
+```ini
+NODE_ENV=development
+PORT=3000
+MONGO_URI=mongodb://localhost:27017/auth_demo
+JWT_ACCESS_SECRET=jwt_access_secret
+JWT_REFRESH_SECRET=jwt_refresh_secret
+ACCESS_TOKEN_TTL=15m
+REFRESH_TOKEN_TTL=7d
+CORS_ORIGIN=http://localhost:5173
+```
+
 
 ### Frontend
 ```ini
 cd web
-# ensure .env exists
+# create .env file
 npm ci
 npm run dev
+```
+
+#### .env file example
+```ini
+VITE_API_URL=http://localhost:3000
 ```
 
 ## Run with Docker Compose
@@ -145,6 +162,8 @@ npm run dev
 ```git clone https://github.com/Abdelrahman-Shawky/Authentication-Demo.git```
 
 ```cd Authentication-Demo```
+
+```Create .env files in /server and /web using the example provided```
 
 ```docker compose up --build```
 
